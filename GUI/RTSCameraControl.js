@@ -10,8 +10,8 @@ RTSCameraControl.prototype.init = function( parentNode, camera )
 	{
 	 this.camera = camera ;
 	
-	 this.moveNode = new ogre.SceneNode() ;
-	 this.tiltNode = new ogre.SceneNode() ;
+	 this.moveNode = ( new ogre.SceneNode() ).init() ;
+	 this.tiltNode = ( new ogre.SceneNode() ).init() ;
 	
 	 this.moveNode.setParent( parentNode ) ;
 	 this.tiltNode.setParent( this.moveNode ) ;

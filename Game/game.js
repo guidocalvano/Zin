@@ -229,13 +229,13 @@ UnitControl.prototype.init = function( unit, parent )
 	{
 	 this.unit = unit ;
 	
-	 this.node = new ogre.SceneNode() ;
+	 this.node = ( new ogre.SceneNode() ).init() ;
 	
 	 this.node.setParent( parent ) ;
 	
 //	 this.node.moveL3N( unit.x, unit.y, 0 ) ;
 	
-	 this.entity = new ogre.Entity( 'unitMeshCombined.mesh' ) ;	
+	 this.entity = ( new ogre.Entity() ).init( 'unitMeshCombined.mesh' ) ;	
 	
 	 this.entity.setParent( this.node ) ;
 	
@@ -300,7 +300,7 @@ UnitControl.prototype.select = function()
 	{
 	 if( !this.selectEntity )
 		{
-	 	 this.selectEntity = new ogre.Entity( 'unitMeshCombinedSelect.mesh' ) ; 
+	 	 this.selectEntity = ( new ogre.Entity() ).init( 'unitMeshCombinedSelect.mesh' ) ; 
 	 	 this.selectEntity.Control = this ;
 		}
 
@@ -479,8 +479,8 @@ TileControl.prototype.init = function( tile, parentNode )
 	
 	 tile.Control = this ;
 
-	 this.node 		= new ogre.SceneNode() ;
-	 this.entity	= new ogre.Entity( 'tile.mesh' ) ;
+	 this.node 		= ( new ogre.SceneNode() ).init() ;
+	 this.entity	= ( new ogre.Entity() ).init( 'tile.mesh' ) ;
 
 	 this.entity.setParent( this.node ) ;
 	
@@ -504,7 +504,7 @@ TileControl.prototype.highlight = function()
 	{
 	 if( !this.highlightEntity )
 		{
-	 	 this.highlightEntity = new ogre.Entity( 'tileSelect.mesh' ) ; 
+	 	 this.highlightEntity = ( new ogre.Entity() ).init( 'tileSelect.mesh' ) ; 
 	 	 this.highlightEntity.Control = this ;
 		}
 	
@@ -528,7 +528,7 @@ MapControl.prototype.init = function( map )
 	
 	 map.Control = this ;
 	
-	 this.node = new ogre.SceneNode() ;
+	 this.node = ( new ogre.SceneNode() ).init() ;
 	
 	 this.node.setParent( ogre.root ) ;
 		
@@ -620,7 +620,7 @@ GameControl.prototype.init = function( serverConnection )
 	
 	
 	
-	 this.sky = new ogre.Entity( 'sky.mesh' ) ;
+	 this.sky = ( new ogre.Entity() ).init( 'sky.mesh' ) ;
 	 this.sky.setParent( ogre.root ) ;
 
 	
