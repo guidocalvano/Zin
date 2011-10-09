@@ -1,11 +1,10 @@
 
-
-var net = require( 'net' ) ;
-
-var ex = require( 'extend' ) ;
-
-var Connection = require( './Connection.js' ) ;
-
+var mod = function( net, extend, ClientConnection )
+{
+var after  = extend.after  ;
+var before = extend.before ;
+	
+	
 function Server() {}
 
 
@@ -42,7 +41,7 @@ Server.prototype.addClientConnection = function( client )
 	
 	 console.log( 'addClientconnection' ) ;
 	
-	 ex.after( clientConnection, 'receive', this, 'receive' ) ;
+	 after( clientConnection, 'receive', this, 'receive' ) ;
 	
 	 return clientConnection ;
 	} ;
@@ -68,78 +67,9 @@ Server.prototype.receive = function( data, object )
 	 console.log( 'SERVER.receive( data = ' + data + ', object = ' + JSON.stringify( object ) + ' ) ' ) ;
 	} ;
 
-	
-function ClientConnection() {} 
 
-ClientConnection.prototype = new Connection() ;
-
-ClientConnection.prototype.init = function( client )
-	{
-	 Connection.prototype.init.call( this, client ) ;
-	/*	
-	 var self = this ;
-		
-	 this.client = client ;	
-	
-	 client.on( 'data', function( data ) { self.receive( data ) ; } ) ;
-	 client.on( 'end', function() { self.end() ; } ) ;
-	*/
-	 return this ;
-	} ;
-
-/*
-ClientConnection.prototype.send = function( object )
-	{
-	 var data = JSON.stringify( object ) ;
-	
-	 console.log( data.length ) ;
-	 console.log( data ) ;
-	 
-	var encodedDataLength = this.encodeDataLength( data )
-		
-//	 var frame = encodedDataLength ;// + new Buffer( data ) ;
-	
-	 console.log( 'encodedDataLength[3] = ' + encodedDataLength[ 3 ] ) ;
-		
-	 this.client.write( encodedDataLength ) ;	
-	 
-	 this.client.write( data ) ;
-	} ;
-	
-	
-ClientConnection.prototype.encodeDataLength = function( data )
-	{
-	 var length = data.length ;
-	
-	 var buf = new Buffer( 4 ) ;
+return Server ;
+} ;
 
 
-	 for( var i = 3 ; i >= 0 ; i-- )
-		{
-		
-		 buf[ i ] = length % 256 ;
-		 length = Math.floor( length / 256 ) ;
-		
-		 console.log( "b[ " + i + " ] = " + buf[ i ] ) ;
-		}
-
-
-	// buf.writeUInt32( 5, 0, 'big' ) ;
-		
-	 return buf ;
-	} ;
-	
-
-
-ClientConnection.prototype.receive = function( data )
-	{
-	 console.log( 'RECEIVED ' + data ) ;
-	
-	 return JSON.parse( "" + data ) ;	
-	} ;
-	
-ClientConnection.prototype.end = function()
-	{} ;
-	*/
-	
-exports.Server 		= Server 		;
+define( [ 'net', 'extend', './ClientConnection.js' ], mod ) ;

@@ -1,6 +1,7 @@
 
-
-
+var mod = function()
+{
+	
 function RTSCameraControl() {}
 
 RTSCameraControl.prototype.TILT_PITCH 	= 3.5 * 0.785398163 ;
@@ -98,7 +99,8 @@ RTSCameraControl.prototype.mouseMoved = function( evt )
 		
 	} ;
 
-
+return RTSCameraControl ;
+} ;
 
 	
-exports.RTSCameraControl = RTSCameraControl ;
+define( [], mod ) ;

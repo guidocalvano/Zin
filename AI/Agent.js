@@ -1,3 +1,7 @@
+
+var mod = function()
+{
+
 function Agent() {} 
 
 
@@ -11,7 +15,7 @@ Agent.prototype.init = function( unit )
 	 console.log( 'AGENT.init' ) ;
 	
 	 // setInterval( function(){ var x = Math.random() * self.unit.map.boundX ; var y = Math.random() * self.unit.map.boundY ; self.moveTo( x, y ) ; console.log( 'to x y ' + x + ' ' + y ) ; }, 4000 ) ;
-	
+		
 	 return this ;
 	} ;
 	
@@ -67,5 +71,6 @@ Agent.prototype.moveTo = function( tx, ty )
 		) ;
 	} ;
 
-
-exports.Agent = Agent ;
+return Agent ;
+} ;
+define( [], mod ) ;

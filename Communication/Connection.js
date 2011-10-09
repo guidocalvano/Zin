@@ -1,4 +1,8 @@
 
+
+var mod = function()
+{
+	
 function Connection() {}
 
 
@@ -174,5 +178,8 @@ Connection.prototype.end = function()
 	{	
 	} ;
 
+return Connection ;
+} ;
 
-module.exports = Connection ;
+
+define( [], mod ) ;
