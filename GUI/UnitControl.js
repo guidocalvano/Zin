@@ -27,6 +27,7 @@ UnitControl.prototype.init = function( unit, parent )
 	
 	 // this.selected.setParent( this.node ) ;
 	
+
 	 this.move( unit.x, unit.y ) ;
 	
 	 after( unit, "move", this, "move" ) ;
