@@ -24,7 +24,9 @@ DomainElementShadow.prototype.decodeFromObject = function( that )
 	{
 	 var nextVal ;
 	
-	 var obj = this.object ;
+//	 var obj = this.object ;
+	
+	 this.object.__proto__ = this.domainClient.getElement( that[ 'prototypeElement'].id ) ;
 	
 	 for( var member in that.object )
 		{

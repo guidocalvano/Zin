@@ -15,11 +15,9 @@ DomainElement.prototype.init = function( id, object, domainServer )
 	
 	 object.DomainElement = this ;
 	
-	 this.changedSinceLastBroadcast = true ;
-	
+	 this.changedSinceLastBroadcast = true ;	
 	
 	 this.functions = {} ;
-	
 	
 	 return this ;
 	} ;
@@ -43,7 +41,7 @@ DomainElement.prototype.encodeToObject = function()
 	
 	 var obj = {} ;
 	
-	 var encoded = {id: this.id, prototypeName: this.prototypeName, object: obj } ;
+	 var encoded = {id: this.id, prototypeElement: { id: this.__proto__.DomainElement.id }, object: obj } ;
 	
 	 var nextVal ;
 	

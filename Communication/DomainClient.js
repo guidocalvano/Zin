@@ -84,7 +84,7 @@ DomainClient.prototype.createElementsIfNotExist = function( elements )
 
 DomainClient.prototype.construct = function( elementObj )
 	{
-	 var object = this.factoryByPrototype[ elementObj.prototypeName ]() ;
+	 var object = {} ; // this.factoryByPrototype[ elementObj.prototypeName ]() ;
 	
 	 var element = ( new DomainElementShadow() ).init( elementObj.id, object, this ) ;
 	
@@ -107,8 +107,6 @@ DomainClient.prototype.initializeElements = function( elements )
 		{
 		 nextElement = this.construct( elements[ i ] ) ;
 		 objectSet.push( nextElement.object ) ;
-		 		
-//		 receiverSet.push( this.construct( elements[ i ] ) ) ;
 		}
 	
 	 for( var j in elements )

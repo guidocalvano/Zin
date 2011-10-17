@@ -32,18 +32,12 @@ DomainServer.prototype.addClient = function( client )
 	 this.domainClientSet.push( client ) ;
 	
 	 this.sendClientInitialState( client ) ;	
-	
-	 this.added = "yup" ;
-	
-	 console.log( 'client added' ) ;
 	} ;
 
 
 DomainServer.prototype.sendClientInitialState = function( client )
 	{
 	 client.send( this.initialStateMessageObject() ) ;
-	
-	 console.log( 'sendClientInitialState' ) ;
 	} ;
 
 
@@ -63,8 +57,7 @@ DomainServer.prototype.initialStateMessageObject = function()
 		 nextElement = this.elementSet[ i ] ;
 
 		 domainInitialState.elements.push( nextElement.encodeToObject() ) ;
-		}
-		
+		}	
 
 	 return domainInitialState ;
 	} ;
@@ -118,29 +111,11 @@ DomainServer.prototype.broadcastUpdate = function()
 
 DomainServer.prototype.receive = function( data, newMessage )
 	{	
-//	 var receiver ;
-//	 var nextObj ;
-
-
-	 console.log( 'DOMAIN SERVER RECEIVING MESSAGE ' + data + ' obj: ' + newMessage ) ;
-
-
-
-
 	 if( newMessage.type == "call" )
 		{
 		 console.log( "CALL: " + JSON.stringify( newMessage ) ) ;
 		 this.elementSet[ newMessage.id ].execute( newMessage ) ;
 		}
-
-
-	/*
-	 if( newMessage.type == "DomainUpdate" )
-		{
-
-		}
-
-	*/
 	} ;
 
 
