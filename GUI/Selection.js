@@ -1,4 +1,4 @@
-var mod = function()
+var mod = function( ex, UnitControl )
 {
 
 function Selection() {} 
@@ -23,7 +23,7 @@ Selection.prototype.select = function( unitsArray )
 		 if( nextUnit )
 			{
 			 this.selectedUnitsArray.push( nextUnit ) ;
-			 nextUnit.Control.select() ;
+			 ex.getEmbedded( nextUnit, UnitControl.prototype ).select() ;
 			}
 		}
 		
@@ -32,35 +32,35 @@ Selection.prototype.select = function( unitsArray )
 Selection.prototype.unselect = function()
 	{
 	 for( var unit in this.selectedUnitsArray )
-	 	this.selectedUnitsArray[ unit ].Control.unselect() ;
+	 	ex.getEmbedded( this.selectedUnitsArray[ unit ], UnitControl.prototype ).unselect() ;
 	
 	 this.selectedUnitsArray = [] ;
 	} ;
 
 
 
-Selection.prototype.mouseMovedOnControl    = function( event, control ) 
+Selection.prototype.mouseMovedOnControl    	= function( event, control ) 
 	{
 	 for( var unit in this.selectedUnitsArray )
-	 	this.selectedUnitsArray[ unit ].Control.mouseMovedOnControl( event, control ) ;
+	 	ex.getEmbedded( this.selectedUnitsArray[ unit ], UnitControl.prototype ).mouseMovedOnControl( event, control ) ;
 	} ;
 
 
-Selection.prototype.mousePressedOnControl = function( event, control )
+Selection.prototype.mousePressedOnControl 	 = function( event, control )
 	{
 	 for( var unit in this.selectedUnitsArray )
-	 	this.selectedUnitsArray[ unit ].Control.mousePressedOnControl( event, control ) ;		
+	 	ex.getEmbedded( this.selectedUnitsArray[ unit ], UnitControl.prototype ).mousePressedOnControl( event, control ) ;		
 	} ;
 
 
-Selection.prototype.mouseReleasedOnControl    = function( event, control ) 
+Selection.prototype.mouseReleasedOnControl   = function( event, control ) 
 	{
 	 for( var unit in this.selectedUnitsArray )
-	 	this.selectedUnitsArray[ unit ].Control.mouseReleasedOnControl( event, control ) ;
+	 	ex.getEmbedded( this.selectedUnitsArray[ unit ], UnitControl.prototype ).mouseReleasedOnControl( event, control ) ;
 	} ;
 
 return Selection ;
 } ;
 
-define( [], mod ) ;
+define( [ 'extend', './UnitControl.js' ], mod ) ;
 

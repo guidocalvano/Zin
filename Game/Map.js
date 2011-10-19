@@ -21,7 +21,7 @@ var before = extend.before ;
 
 	Map.prototype.createTileTable = function( tileColumnCount, tileRowCount )
 		{
-		 console.log( 'tt ' + tileColumnCount + ' - ' + tileRowCount ) ;
+	//	 console.log( 'tt ' + tileColumnCount + ' - ' + tileRowCount ) ;
 
 		 this.tileColumnCount  = tileColumnCount  ;
 	     this.tileRowCount = tileRowCount ;
@@ -35,7 +35,7 @@ var before = extend.before ;
 	     this.boundX = Tile.prototype.WIDTH_UNITS  * this.tileColumnCount ;
 	     this.boundY = Tile.prototype.HEIGHT_UNITS * this.tileRowCount ;
 
-		 console.log( 'TILETABLE CREATED') ;
+		// console.log( 'TILETABLE CREATED') ;
 		} ;
 
 	Map.prototype.xMapWorldToXTile = function( xMapWorld ) { return Math.floor( xMapWorld / Tile.prototype.WIDTH_UNITS ) ; } ;
@@ -43,18 +43,11 @@ var before = extend.before ;
 
 	Map.prototype.tileAtPoint = function( xMapWorld, yMapWorld )
 	     {
-		  console.log( '-> TILE AT POINT xy ' + xMapWorld + ' ' + yMapWorld ) ;
+		 // console.log( '-> TILE AT POINT xy ' + xMapWorld + ' ' + yMapWorld ) ;
 
 
 	      var xTile = this.xMapWorldToXTile( xMapWorld ) ;
 	      var yTile = this.yMapWorldToYTile( yMapWorld ) ;
-
-		  console.log( '-> TILE AT POINT txty ' + xTile + ' ' + yTile ) ;
-		  console.log( '-> TILE AT POINT txty ' + xTile + ' ' + yTile ) ;	  console.log( '-> TILE AT POINT txty ' + xTile + ' ' + yTile ) ;
-			  console.log( '-> TILE AT POINT txty ' + xTile + ' ' + yTile ) ;
-				  console.log( '-> TILE AT POINT txty ' + xTile + ' ' + yTile ) ;
-					  console.log( '-> TILE AT POINT txty ' + xTile + ' ' + yTile ) ;
-						  console.log( '-> TILE AT POINT txty ' + xTile + ' ' + yTile ) ;
 
 
 	//	  if( ! this.tileTable[ xTile ] && xTile != 0 ) process.exit( 0 ) ;
@@ -65,13 +58,13 @@ var before = extend.before ;
 
 	Map.prototype.loadTiles = function( tileFactory )
 		{
-			 console.log( "xy " + this.tileColumnCount + ' ' + this.tileRowCount ) ;
+		//	 console.log( "xy " + this.tileColumnCount + ' ' + this.tileRowCount ) ;
 
 
 		 for( var xTile = 0 ; xTile < this.tileColumnCount ; xTile ++ )
 		 for( var yTile = 0 ; yTile < this.tileRowCount    ; yTile ++ )
 			{
-			 console.log( "xy " + xTile + ' ' + yTile ) ;
+			// console.log( "xy " + xTile + ' ' + yTile ) ;
 			 this.putTile( tileFactory.create( xTile, yTile  ) ) ;
 			}
 		} ;
@@ -79,7 +72,7 @@ var before = extend.before ;
 
 	Map.prototype.putTile = function( tile )
 		{
-		 console.log( 'puttile' ) ;
+		// console.log( 'puttile' ) ;
 		 this.tileTable[ tile.xTile ][ tile.yTile ] = tile ;	
 		} ;
 
@@ -135,7 +128,7 @@ var before = extend.before ;
 		 if( start.x < end.x ) dX = 1 ;
 		 if( start.y < end.y ) dY = 1 ;
 
-		 console.log( "mws.x " + start.x + " mwe.x " + end.x + " mws.y " + start.y + " mwe.y " + end.y ) ;
+//		 console.log( "mws.x " + start.x + " mwe.x " + end.x + " mws.y " + start.y + " mwe.y " + end.y ) ;
 
 	     var xTileStart = this.xMapWorldToXTile( start.x ) ;
 	     var yTileStart = this.yMapWorldToYTile( start.y ) ;
@@ -144,7 +137,7 @@ var before = extend.before ;
 
 		 var nextReturn ; 
 
-		 console.log( "xs " + xTileStart + " xe " + xTileEnd + " ys " + yTileStart + " ye " + yTileEnd ) ;
+//		 console.log( "xs " + xTileStart + " xe " + xTileEnd + " ys " + yTileStart + " ye " + yTileEnd ) ;
 
 
 		 for( var x = xTileStart ; x != xTileEnd + dX ; x += dX )
@@ -166,7 +159,7 @@ var before = extend.before ;
 
 		 return this.applyToTiles( start, end, function( tile ) 
 				{
-				 var un = tile.collect( function( unit ) { if( unit instanceof Unit ) { console.log( "unit found") ; return unit ; } ; console.log( "not a unit") ;} ) ;
+				 var un = tile.collect( function( unit ) { if( unit instanceof Unit ) { console.log( "unit found") ; return unit ; } ; } ) ;
 
 				 if( un.length > 0 ) { console.log( "returning unit" ) ; return un[ 0 ] ; }
 				}  ) ; 
@@ -175,6 +168,8 @@ var before = extend.before ;
 
 	Map.prototype.initAfterLoad = function()
 		{
+		 console.log( "tiletable: " + this.tileTable + ' colcount ' + this.tileTable.length ) ;
+			
 		 this.initAddAllUnitsOnMap() ;
 		} ;
 

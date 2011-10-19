@@ -15,11 +15,17 @@ GameControl.prototype.init = function( serverConnection )
 		
 	 this.domainClient = ( new DomainClient() ).init( serverConnection ) ;
 	
+	 this.domainClient.addConstructorFunction( 'Map',   Map ) ;
+	 this.domainClient.addConstructorFunction( 'Unit',  Unit ) ;
+	 this.domainClient.addConstructorFunction( 'Tile',  Tile ) ;
+	 this.domainClient.addConstructorFunction( 'Agent', Agent ) ;
+	
+	/*
 	 this.domainClient.factoryByPrototype[ 'Map'  ] = function() { return new Map() ; }  ;	
 	 this.domainClient.factoryByPrototype[ 'Unit' ] = function() { return new Unit() ; }  ;	
 	 this.domainClient.factoryByPrototype[ 'Tile' ] = function() { return new Tile() ; }  ;	
 	 this.domainClient.factoryByPrototype[ 'Agent'  ] = function() { return new Agent() ; }  ;	
-
+	*/
 
 	 after( this.domainClient, 'initializeElements', this, 'afterDomainInitialized' ) ;
 
@@ -43,7 +49,7 @@ GameControl.prototype.afterDomainInitialized = function( _, objectSet )
 		
 	 for( var i in objectSet )	
 		{
-		 console.log( objectSet[ i ].constructor.name ) ;
+		 // console.log( objectSet[ i ].constructor.name ) ;
 		 if( objectSet[ i ].constructor.prototype == Map.prototype )
 			{
 			 var map = objectSet[ i ] ;
@@ -82,6 +88,8 @@ GameControl.prototype.afterDomainInitialized = function( _, objectSet )
 
 	GameControl.prototype.mouseMoved = function( event )
 		{
+		 //console.log( 'GameControl.mouseMoved' ) ;
+			
 		 gui.input.injectMouseMoved( event ) ;
 
 		 this.camera.mouseMoved( event ) ;

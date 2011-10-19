@@ -1,9 +1,9 @@
 
-
 var mod = function( extend, DomainElementShadow )
 {
-var after  = extend.after  ;
-var before = extend.before ;
+var after   = extend.after  ;
+var before  = extend.before ;
+var key		= extend.key	;
 
 function DomainClient() {} 
 
@@ -13,19 +13,21 @@ DomainClient.prototype.init = function( serverConnection )
 	
 	 this.initFunctionSet = {} ;
 	
-	 this.factoryByPrototype = {} ;
+	 this.constructorFunctionsByName = {} ;
 	
-	 // var serverConnection = ( new serverConnection.ServerConnection() ).init( port, host ) ;
-	
+	 this.remoteKeyToLocalKey = {} ;
+		
 	 this.serverConnection = serverConnection ;
 	 
-	 console.log( 'ex.after( this.serverConnection, "receive", this, "receive" ) ;') ;
 	 after( this.serverConnection, "receive", this, "receive" ) ;
 	
 	 return this ;
 	} ;
 	
-
+DomainClient.prototype.addConstructorFunction = function( name, constructorFunction )
+	{
+	 this.constructorFunctionsByName[ name  ] = constructorFunction ; 
+	} ;
 	
 		
 DomainClient.prototype.getElement = function( id ) { return this.idToElement[ id ] ; } ;
@@ -39,30 +41,42 @@ DomainClient.prototype.receive = function( data, newMessage )
 //	 var nextObj ;
 
 
-	 console.log( 'RECEIVING MESSAGE ' + data + ' obj: ' + newMessage ) ;
+	 console.log( 'RECEIVING MESSAGE ' ) ;
 
 	 if( newMessage.type == "initialize" )
-	
-		 this.initializeElements( newMessage.elements ) ;
-	
-	
+		
+		 this.initialize( newMessage ) ;
 	 
 	
 	 if( newMessage.type == "call" )
 		{
 		 console.log( "CALL: " + JSON.stringify( newMessage ) ) ;
+		
 		 this.idToElement[ newMessage.id ].execute( newMessage ) ;
 		}
-	
 
-	/*
-	 if( newMessage.type == "DomainUpdate" )
-		{
-
-		}
-		
-	*/
 	} ;
+
+DomainClient.prototype.initialize = function( newMessage )
+	{
+	 this.initializeConstructorFunctions( newMessage.constructorFunctions 	) ;
+	 this.initializeElements( 	newMessage.elements 	) ;
+	} ;
+
+DomainClient.prototype.initializeConstructorFunctions = function( constructorFunctions )
+	{
+	 var i = 0 ;
+	 for( var name in constructorFunctions )
+		{
+		i++ ;
+		 this.remoteKeyToLocalKey[ constructorFunctions[ name ].____key ] = key( this.constructorFunctionsByName[ name ].prototype ) ;
+		
+		 console.log( name + ' remote key: ' + constructorFunctions[ name ].____key + ' local key ' + key( this.constructorFunctionsByName[ name ].prototype  ) ) ;
+		} 
+		
+		
+	} ;
+
 
 
 DomainClient.prototype.createElementsIfNotExist = function( elements )
@@ -84,9 +98,24 @@ DomainClient.prototype.createElementsIfNotExist = function( elements )
 
 DomainClient.prototype.construct = function( elementObj )
 	{
-	 var object = {} ; // this.factoryByPrototype[ elementObj.prototypeName ]() ;
-	
+	 var object = new this.constructorFunctionsByName[ elementObj.prototypeName ]() ;
+		
 	 var element = ( new DomainElementShadow() ).init( elementObj.id, object, this ) ;
+	
+	 if( object.constructor.name == 'Agent' ) 
+		{
+		 console.log( 'AGENT' ) ;
+			
+		 for( var e in object.____embedded ) console.log( e + ': ' + object.____embedded[ e ] + ' ' + object.____embedded[ e ].constructor.name ) ;
+		
+		 console.log( 'des id ' + object.____embedded[ key( DomainElementShadow.prototype ) ].id ) ; 
+		
+		// console.log( 'ows ' + key( ObjectWebService.prototype ) ) ;
+
+		 console.log( 'des ' + key( DomainElementShadow.prototype ) ) ;
+			
+		 // process.exit( 0 ) ;	
+		} ;
 	
 	 this.setElement( element.id, element ) ;
 	
@@ -139,14 +168,14 @@ DomainClient.prototype.setInitializer = function( prototypeName  )
 	 this.initializer = prototypeName ;	
 	}
 
-	
+/*
 DomainClient.prototype.addPrototype = function( prototype, init )
 	{
 	 this.factoryByPrototype[ prototype.constructor.name  ] = function() { return new prototype.constructor() ; }  ;	
 	
 	 prototype.DomainClientBackpack = { init: function( obj ) { init( obj ) ; } } ;
 	} ;
-	
+*/	
 	
 DomainClient.prototype.send = function( data )
 	{

@@ -1,9 +1,15 @@
 
-var mod = function( extend, Tile ) 
+var mod = function( extend, DomainElementShadow, Agent, Control, Tile, TileControl ) 
 {
-var after  = extend.after  ;
-var before = extend.before ;
+var after 			 = extend.after  ;
+var before 			 = extend.before ;
+var setEmbedded 	 = extend.setEmbedded ;
+var getEmbedded 	 = extend.getEmbedded ;
+var key				 = extend.key 		  ;
+
 function UnitControl() {} 
+
+UnitControl.prototype = new Control() ;
 
 UnitControl.prototype.init = function( unit, parent )
 	{
@@ -12,20 +18,18 @@ UnitControl.prototype.init = function( unit, parent )
 	 this.node = ( new ogre.SceneNode() ).init() ;
 	
 	 this.node.setParent( parent ) ;
-	
-//	 this.node.moveL3N( unit.x, unit.y, 0 ) ;
-	
+		
 	 this.entity = ( new ogre.Entity() ).init( 'unitMeshCombined.mesh' ) ;	
 	
 	 this.entity.setParent( this.node ) ;
 	
-	 this.entity.Control = this ;
+	 // this.entity.Control = this ;
 	
-	 this.unit.Control = this ;
+	 // this.unit.Control = this ;
 	
-	 // this.selected = new ogre.Entity( 'unitMeshCombinedSelect.mesh' ) ;
+	 setEmbedded( this.entity, Control.prototype, this ) ;
 	
-	 // this.selected.setParent( this.node ) ;
+	 setEmbedded( this.unit,   Control.prototype, this ) ;
 	
 
 	 this.move( unit.x, unit.y ) ;
@@ -37,12 +41,48 @@ UnitControl.prototype.init = function( unit, parent )
 
 
 UnitControl.prototype.mousePressedOnControl = function( event, control )
-	{
-	 if( control.constructor.name == 'TileControl' ) 
+	{		
+	 if( control instanceof TileControl ) 
 		{
-		 this.unit.Agent.DomainElementShadow.executeRemote( 'moveTo', [ control.tile.xTile * Tile.prototype.WIDTH_UNITS, control.tile.yTile * Tile.prototype.HEIGHT_UNITS ] ) ;
+		/*
+		 console.log( 'embedded' ) ;
+	//	 for( var e in this.unit.____embedded ) console.log( e + ': ' + this.unit.____embedded[ e ] ) ;
+		
+		 console.log( 'embedded agent data' ) ;
+		 console.log( 'Agent key ' + Agent.prototype.____key ) ;
+
+		 for( var p in this.unit.____embedded[ Agent.prototype.____key ] ) console.log( p + ': ' + this.unit.____embedded[ Agent.prototype.____key ][ p ] ) ;		 
+		
+		 for( var e in this.unit.____embedded ) console.log( e + ': ' + this.unit.____embedded[ e ] ) ;		 
+		
+		 console.log( 'other stuff' ) ;
+		// for( var i in this.unit ) 			console.log( i + ': ' + this.unit[ i ] ) ;
+		 // for( var j in this.unit.____key ) 	console.log( j + ': ' + this.unit.____key[ i ] ) ;
+
+		*/	
+		 var agent 			= getEmbedded( this.unit, Agent.prototype ) ;
+		
+	//	 console.log( 'agent: ' ) ;
+		 
+	//	 for( var i in agent ) console.log( i + ': ' + agent[ i ] ) ;
+		
+		 console.log( 'key ' + key( DomainElementShadow.prototype ) ) ;
+		
+		 var domainShadow 	= getEmbedded( agent, DomainElementShadow.prototype ) ;
+
+		 console.log( 'domainShadow key: ' + key( DomainElementShadow.prototype ) )  ;
+
+		
+		 console.log( 'domainShadow: ' ) ;
+		 
+		 for( var j in domainShadow ) console.log( j + ': ' + domainShadow[ j ] ) ;
+		
+		 console.log( 'embedded' ) ;
+		
+		 for( var e in agent.____embedded ) console.log( e + ': ' + agent.____embedded[ e ] ) ;
+		
+		 domainShadow.executeRemote( 'moveTo', [ control.tile.xTile * Tile.prototype.WIDTH_UNITS, control.tile.yTile * Tile.prototype.HEIGHT_UNITS ] ) ;
 		} ;
-	
 		
 	} ;
 
@@ -100,4 +140,4 @@ UnitControl.prototype.unselect = function()
 return UnitControl ;
 
 } ;
-define( [ 'extend', '../Game/Tile' ], mod ) ;
+define( [ 'extend', '../Communication/DomainElementShadow.js', '../AI/Agent.js', './Control.js', '../Game/Tile', './TileControl.js' ], mod ) ;

@@ -17,7 +17,7 @@ Tile.prototype.init = function( xTile, yTile )
 
 	 this.content = new Array() ;
 
-	 console.log( 'tile.init( ' + xTile + ', ' + yTile +' )' ) ;
+//	 console.log( 'tile.init( ' + xTile + ', ' + yTile +' )' ) ;
 
 
 	 return this ;

@@ -37,14 +37,11 @@ Connection.prototype.send = function( object )
 	{
 	 var data = JSON.stringify( object ) ;
 
-	 console.log( data.length ) ;
-	 console.log( data ) ;
 
 	var encodedDataLength = this.encodeDataLength( data )
 
 //	 var frame = encodedDataLength ;// + new Buffer( data ) ;
 
-	 console.log( 'encodedDataLength[3] = ' + encodedDataLength[ 3 ] ) ;
 
 	 this.connection.write( encodedDataLength ) ;	
 
@@ -82,8 +79,6 @@ Connection.prototype.encodeDataLength = function( data )
 
 Connection.prototype.process = function( data )
 	{
-	 console.log( 'PROCESS DATA: ' ) ;
-
 	 var i = 0 ;
 
 	 var str = data.toString() ;
@@ -91,9 +86,7 @@ Connection.prototype.process = function( data )
 	 var nextByte ;
 
 	 var messagesCompletedThisCall = 0 ;
-	 console.log( str ) ;
 	
-	 console.log( "unreadFrameLength " + this.unreadFrameLength ) ;
 
 	 var toByte ;
 	
@@ -112,16 +105,12 @@ Connection.prototype.process = function( data )
 
 		 if( this.currentTokenType == this.FRAME_LENGTH )
 			{
-			 console.log( 'processing frame length data ' + i + ' ' + nextChar ) ;
-			 console.log( 'digit = ' + nextByte ) ;	
-
 			 this.unreadFrameLength = this.unreadFrameLength * 256 + nextByte ; 
 			 this.unreadLengthBytes-- ;
 
 
 			 if( this.unreadLengthBytes == 0 )
 				{
-				 console.log( "frame length " + this.unreadFrameLength ) ;
 				 this.currentTokenType = this.FRAME ;				
 				}
 
@@ -129,7 +118,6 @@ Connection.prototype.process = function( data )
 			}
 		 else if( this.currentTokenType == this.FRAME )
 			{
-			 console.log( 'frame data ' + i + ' ' + nextChar + ' l = ' + this.unreadFrameLength ) ;
 
 
 			 this.incompleteFrame += nextChar ;
@@ -138,7 +126,6 @@ Connection.prototype.process = function( data )
 
 			 if( this.unreadFrameLength == 0 )
 				{
-				 console.log( 'FRAME COMPLETE ' + messagesCompletedThisCall ) ;
 				 this.currentTokenType  = this.FRAME_LENGTH ;
 				 this.unreadLengthBytes = 4 ;
 
@@ -151,8 +138,7 @@ Connection.prototype.process = function( data )
 
 		}
 		
-	 console.log( "data.constructor.name" +data.constructor.name   ) ;
-		 console.log( "str.constructor.name" +str.constructor.name ) ;
+
 	} ;
 
 
@@ -164,11 +150,10 @@ Connection.prototype.connect = function()
 
 Connection.prototype.receive = function( data )
 	{
-	 console.log( 'RECEIVE') ;	
 
 	 var obj = JSON.parse( data ) ;	
 
-	 console.log( "Connection.receive: " + JSON.stringify( obj ) ) ;
+	 console.log( "Connection.receive " ) ;
 
 	 return obj ;
 	} ;

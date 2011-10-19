@@ -53,7 +53,7 @@ RTSCameraControl.prototype.mouseMoved = function( evt )
 		
 	 if( evt.x<20 && this.processes.moveX == null ) 
 		{
-		 console.log( 'left edge' ) ;
+		 // console.log( 'left edge' ) ;
 		 // this.processes.moveX = setInterval( function() { this.moveByScreenDirection( -10, 0 ) ; }, ogre.frame
 		 // this.camera.before( 'renderOneFrame', ) ;
 		}
@@ -69,14 +69,14 @@ RTSCameraControl.prototype.mouseMoved = function( evt )
 		
 	 if( evt.y == 0 && evt.dY < 0 ) 
 		{
-		 console.log( 'top edge ' + evt.dY ) ;
+	//	 console.log( 'top edge ' + evt.dY ) ;
 		 
 		 this.moveByScreenDirection( 0, -evt.dY ) ;
 		}
 		
 	 if( evt.y >= ogre.window.height - 1 && evt.dY > 0 ) 
 		{
-		 console.log( 'top edge ' + evt.dY ) ;
+	//	 console.log( 'top edge ' + evt.dY ) ;
 
 		 this.moveByScreenDirection( 0, -evt.dY ) ;
 		}
@@ -85,14 +85,14 @@ RTSCameraControl.prototype.mouseMoved = function( evt )
 		
 	 if( evt.x == 0 && evt.dX < 0 ) 
 		{
-		 console.log( 'left edge ' + evt.dX ) ;
+	//	 console.log( 'left edge ' + evt.dX ) ;
 
 		 this.moveByScreenDirection( -evt.dX, 0 ) ;
 		}
 
 	 if( evt.x >= ogre.window.width - 1 && evt.dX > 0 ) 
 		{
-		 console.log( 'left edge ' + evt.dX ) ;
+	//	 console.log( 'left edge ' + evt.dX ) ;
 
 		 this.moveByScreenDirection( -evt.dX, 0 ) ;
 		}
