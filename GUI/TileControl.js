@@ -1,20 +1,26 @@
 
-var mod = function( Tile )
+var mod = function( ex, Control, Tile )
 {
 function TileControl(){} 
+
+TileControl.prototype = new Control() ;
 
 TileControl.prototype.init = function( tile, parentNode )
 	{
 	 this.tile = tile ;
 	
-	 tile.Control = this ;
+	 // tile.Control = this ;
+
+	 ex.setEmbedded( tile, TileControl.prototype, this ) ;
 
 	 this.node 		= ( new ogre.SceneNode() ).init() ;
 	 this.entity	= ( new ogre.Entity() ).init( 'tile.mesh' ) ;
 
 	 this.entity.setParent( this.node ) ;
 	
-	 this.entity.Control = this ;
+	 // this.entity.Control = this ;
+	
+	 ex.setEmbedded( this.entity, Control.prototype, this ) ;
 	
 	 this.node.setParent( parentNode ) ;
 
@@ -53,4 +59,4 @@ return TileControl ;
 } ;
 
 
-define( [ '../Game/Tile.js' ], mod ) ;
+define( [ 'extend', './Control.js', '../Game/Tile.js' ], mod ) ;

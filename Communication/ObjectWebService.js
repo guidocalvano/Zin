@@ -2,9 +2,12 @@ var mod = function( extend )
 {
 var after  = extend.after  ;
 var before = extend.before ;
+var key    = extend.key    ;
+
 
 function ObjectWebService() {} 
 
+key( ObjectWebService.prototype ) ;
 
 ObjectWebService.prototype.init = function( id, object, connection )
 	{
@@ -57,9 +60,9 @@ ObjectWebService.prototype.encodeArgument = function( arg )
 
 	// thus arg instanceof Object )
 
-	  if( arg.DomainElement )
+	  if( getEmbedded( arg, ObjectWebService.prototype ) )
 		{
-		 return { id: args[ i ].DomainElement.id } ;			
+		 return { id: getEmbedded( arg, ObjectWebService.prototype ).id } ;			
 		}
 	  else
 		{
@@ -78,7 +81,7 @@ ObjectWebService.prototype.broadcastFunction = function( member )
 			{
 			 // if( self.server.DomainElement && self.server.DomainElement.isInCallTree  ) return ;
 
-			 if( !self.connection.DomainElement ) self.connection.DomainElement = {} ;
+			 // if( !self.connection.DomainElement ) self.connection.DomainElement = {} ;
 
 			 // self.server.DomainElement.isInCallTree = true ;
 
@@ -146,6 +149,7 @@ ObjectWebService.prototype.execute = function( callMessage )
 	
 	
 	 console.log( 'MEMBER ' + member + ' ARGS ' + args ) ;
+		
 	
 	 this.object[ member ].apply( this.object, args ) ;
 	} ;

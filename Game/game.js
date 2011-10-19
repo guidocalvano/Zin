@@ -1,7 +1,7 @@
 
 
 
-var mod = function( extend, DomainServer, Player, Map, Agent )
+var mod = function( extend, DomainServer, Player, Map, Tile, Unit, Agent )
 {
 var after  = extend.after  ;
 var before = extend.before ;
@@ -17,6 +17,11 @@ Game.prototype.init = function( mapFactory, server )
 
 	 var domain = ( new DomainServer() ).init( server ) ;
 
+	 domain.addConstructorFunction( 'Map',   Map   ) ;	
+	 domain.addConstructorFunction( 'Tile',  Tile  ) ;
+	 domain.addConstructorFunction( 'Unit',  Unit  ) ;
+	 domain.addConstructorFunction( 'Agent', Agent ) ;
+
 	 this.domain = domain ; 
 
 	 this.map = new Map() ; 
@@ -30,19 +35,9 @@ Game.prototype.init = function( mapFactory, server )
 			 var agent = ( new Agent() ).init( unit ) ; 
 			
 	 		 var element = domain.addElement( unit ) ;
-	 		// process.exit( 0 ) ;
 	
 			 element.broadcastFunction( 'move' ) ;  
-			 // process.exit( 0 ) ;
-			
-			// for( var i = 0 ; i < 100 ; i++ )
-			//	console.log( Agent.prototype.constructor.name ) ;
-				
-			/*
-			 if( agent.constructor.name == 'Agent' )
-				{
-				 console.log('bla agent' ) ; process.exit( 0 ) ;
-				}*/
+
 			 domain.addElement( agent ) ;  
 			} 
 		}, "addElement" ) ;
@@ -91,7 +86,7 @@ return Game ;
 } ;
 
 
-define( [ 'extend', '../Communication/DomainServer.js', './Player.js', './Map.js', '../AI/Agent.js' ], mod ) ;
+define( [ 'extend', '../Communication/DomainServer.js', './Player.js', './Map.js', './Tile.js', './Unit.js', '../AI/Agent.js' ], mod ) ;
 
 
 

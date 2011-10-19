@@ -2,8 +2,9 @@
 
 var mod = function( extend, DomainElement )
 {
-var after  = extend.after  ;
-var before = extend.before ;
+var after  	= extend.after  ;
+var before 	= extend.before ;
+var key		= extend.key 	;
 
 
 function DomainServer() {}
@@ -21,10 +22,42 @@ DomainServer.prototype.init = function( server )
 	
 	 this.server = server ;
 	
+	 this.constructorFunctionSet = {} ;
+	
 	 after( server, 'receive', this, 'receive' ) ;
 			
 	 return this ;
 	} ;
+
+DomainServer.prototype.addConstructorFunction = function( name, constructorFunction )
+	{
+	 this.constructorFunctionSet[ name ] = constructorFunction ;
+	} ;
+	
+
+DomainServer.prototype.encodeConstructorFunctionSet = function()
+	{
+	 var encodedConstructorFunctionSet = {} ;
+	
+	 for( var i in this.constructorFunctionSet )
+	
+	 	encodedConstructorFunctionSet[ i ] = this.encodeConstructorFunction( this.constructorFunctionSet[ i ] ) ;
+	
+	 console.log( 'ENCODED CONSTRUCTOR FUNCTIONS') ;
+	 console.log( JSON.stringify( encodedConstructorFunctionSet ) ) ;
+	
+	 // process.exit( 0 ) ;
+	
+	 return encodedConstructorFunctionSet ;
+	} ;
+
+
+
+DomainServer.prototype.encodeConstructorFunction = function( constructorFunction )
+	{
+	 return { ____key: key( constructorFunction.prototype ) } ;
+	} ;
+
 
 
 DomainServer.prototype.addClient = function( client )
@@ -52,6 +85,8 @@ DomainServer.prototype.initialStateMessageObject = function()
 	 var domainInitialState = 
 		{
 		 type: "initialize",
+		
+		 constructorFunctions: this.encodeConstructorFunctionSet(),
 		
 		 elements: []  
 		} ;

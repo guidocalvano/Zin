@@ -1,13 +1,16 @@
 
-var mod = function()
+var mod = function( ex )
 {
 
 function Agent() {} 
 
+ex.key( Agent.prototype ) ;
 
 Agent.prototype.init = function( unit )
 	{
-	 unit.Agent = this ;
+	 // unit.Agent = this ;
+	
+	 ex.setEmbedded( unit, Agent.prototype, this ) ;
 	
 	 this.unit = unit ;
 	
@@ -73,4 +76,4 @@ Agent.prototype.moveTo = function( tx, ty )
 
 return Agent ;
 } ;
-define( [], mod ) ;
+define( [ 'extend' ], mod ) ;

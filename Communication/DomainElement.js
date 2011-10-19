@@ -1,5 +1,5 @@
 
-var mod = function( ObjectWebService )
+var mod = function( ex, ObjectWebService )
 {
 
 function DomainElement() {}
@@ -13,7 +13,10 @@ DomainElement.prototype.init = function( id, object, domainServer )
 	
 	 ObjectWebService.prototype.init.apply( this, arguments ) ;
 	
-	 object.DomainElement = this ;
+	 // object.DomainElement = this ;
+	
+	 ex.setEmbedded( object, DomainElement.prototype, this ) ;
+	 
 	
 	 this.changedSinceLastBroadcast = true ;
 	
@@ -39,7 +42,6 @@ DomainElement.prototype.broadcastInterface = function( interface )
 	
 DomainElement.prototype.encodeToObject = function()
 	{
-	 console.log( 'callled') ;
 	
 	 var obj = {} ;
 	
@@ -54,34 +56,65 @@ DomainElement.prototype.encodeToObject = function()
 		 obj[ member ] = this.encodeMember( nextVal ) ;
 		}
 	
+	
+	 obj.____embedded = this.encodeEmbedded() ;
 //	 encoded.PrototypeName = this.object.constructor.name ;
 	
 	 return encoded ;
 	} ;
 
 
+DomainElement.prototype.encodeEmbedded = function()
+	{
+	 var ____embedded = {} ; var embedded ;
+	
+	 for( var i in this.object.____embedded )	
+		{
+		 embedded = this.object.____embedded[ i ] ;
+			
+		 if( ex.getEmbedded( embedded, DomainElement.prototype ) )
+			____embedded[ i ] = { id: ex.getEmbedded( embedded, DomainElement.prototype ).id } ;
+		}
+		
+	 return ____embedded ;
+	} ;
+
+var depth = 0 ;
 DomainElement.prototype.encodeMember = function( nextVal )
 	{
+	 console.log( 'encode member ' + depth ) ; depth++ ;
 	 if( !(nextVal instanceof Object ) && !( nextVal instanceof Function ) &&!( nextVal instanceof Array ) )
+		{
+		 depth-- ;
 		 return nextVal ;
-	 else if( nextVal.DomainElement )
-		 return { id: nextVal.DomainElement.id } ;
+		}
+	 else if( ex.getEmbedded( nextVal, DomainElement.prototype ) )
+		{
+		 depth-- ;
+		 console.log( 'domain element ' ) ;
+		 return { id: ex.getEmbedded( nextVal, DomainElement.prototype ).id } ;
+		}
 	 else if( nextVal instanceof Array )
 		{
+		 console.log( 'array' ) ;
 		 var array = [] ;	
 		
 		 for( var i in nextVal )
 			{				
 			 array[ i ] = this.encodeMember( nextVal[ i ] ) ;
 			}
-			
+		
+		 depth--;
 		 return array ;
 		}
-		
+	 else console.log( 'other' ) ;
+	
+		depth-- ;
+		 console.log( 'encode member done' ) ;
 	} ;
 
 return DomainElement ;
 } ;
 
 
-define( [ './ObjectWebService.js' ], mod ) ;
+define( [ 'extend', './ObjectWebService.js' ], mod ) ;
