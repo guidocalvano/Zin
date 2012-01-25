@@ -125,15 +125,15 @@ var before = extend.before ;
 		 var dX = -1 ;
 		 var dY = -1 ;
 
-		 if( start.x < end.x ) dX = 1 ;
-		 if( start.y < end.y ) dY = 1 ;
+		 if( start[ 0 ] < end[ 0 ] ) dX = 1 ;
+		 if( start[ 1 ] < end[ 1 ] ) dY = 1 ;
 
 //		 console.log( "mws.x " + start.x + " mwe.x " + end.x + " mws.y " + start.y + " mwe.y " + end.y ) ;
 
-	     var xTileStart = this.xMapWorldToXTile( start.x ) ;
-	     var yTileStart = this.yMapWorldToYTile( start.y ) ;
-	     var xTileEnd   = this.xMapWorldToXTile( end.x   ) ;
-	     var yTileEnd   = this.yMapWorldToYTile( end.y   ) ;
+	     var xTileStart = this.xMapWorldToXTile( start[ 0 ] ) ;
+	     var yTileStart = this.yMapWorldToYTile( start[ 1 ] ) ;
+	     var xTileEnd   = this.xMapWorldToXTile( end[ 0 ]   ) ;
+	     var yTileEnd   = this.yMapWorldToYTile( end[ 1 ]   ) ;
 
 		 var nextReturn ; 
 
@@ -176,7 +176,7 @@ var before = extend.before ;
 
 	Map.prototype.initAddAllUnitsOnMap = function()
 		{
-		 var unitSet = this.getUnits( { x: 0, y: 0 }, { x: this.boundX - 1, y: this.boundY - 1 } ) ;
+		 var unitSet = this.getUnits( [ 0, 0 ], [ this.boundX - 1, this.boundY - 1 ] ) ;
 
 		 for( var i in unitSet )
 			this.addUnit( unitSet[ i ] ) ;

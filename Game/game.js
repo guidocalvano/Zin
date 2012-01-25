@@ -29,8 +29,7 @@ Game.prototype.init = function( mapFactory, server )
 	 before( this.map, "addUnit", 
 		{
 		 addElement: function( unit ) 
-			{
-			
+			{			
 			 console.log( 'ADD UNIT' ) ; 
 			 var agent = ( new Agent() ).init( unit ) ; 
 			
@@ -69,12 +68,12 @@ Game.prototype.addPlayer = function( clientConnection )
 	} ;
 
 
-
-Game.prototype.sendStateUpdate  = function()
+/*
+Game.Prototype.Sendstateupdate  = function()
 	{
 
 	} ;
-
+*/
 
 Game.prototype.start = function()
 	{

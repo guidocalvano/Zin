@@ -1,12 +1,21 @@
-var mod = function( Menu )
+var mod = function( extend, Menu )
 {
+ var after  = extend.after  ;
+ var before = extend.before ;
+
 
  function EditorControl() {}
 
 
- EditorControl.prototype.init = function( serverConnection, camera )
+ EditorControl.prototype.init = function( domainClient, camera )
 	{
 	 this.camera = camera ;
+     
+     
+     this.domainClient = domainClient ;
+     
+      after( this.domainClient, 'initializeElements', this, 'afterDomainInitialized' ) ;
+
 		
 	 return this ;
 	} ;
@@ -14,7 +23,18 @@ var mod = function( Menu )
 
  EditorControl.prototype.afterDomainInitialized = function( _, objectSet )
 	{
-	
+	 for( var i in objectSet )	
+		{
+
+		 if( objectSet[ i ].constructor.prototype == Map.prototype )
+			{
+			 var map = objectSet[ i ] ;			
+
+			 map.initAfterLoad() ;
+			
+			 this.mapControl = ( new MapControl() ).init( map ) ;
+			}
+		}	
 	} ;
 
 
@@ -50,4 +70,4 @@ var mod = function( Menu )
  return EditorControl ;
 } ;
 
-define( [ './Menu.js' ], mod ) ;
+define( [ 'extend','./Menu.js' ], mod ) ;

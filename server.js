@@ -24,7 +24,7 @@ var game =
 
 	( new Game() ).init
 		( 
-		 ( new EmptyTileFactory() ).init( 3, 3 ), 
+		 ( new EmptyTileFactory() ).init( 2, 2 ), 
 		 s 
 		) ;
 

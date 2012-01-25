@@ -17,7 +17,7 @@ SelectionControl.prototype.startSelection = function( event )
 	{
 	 console.log( 'SelectionControl.STARTSelection( )') ;	
 	 
-	 var mapHitPoint = ex.getEmbedded( this.map, Control.prototype ).convertWorldOXYZToMapWorldOXY( event.hit.point ) ;
+	 var mapHitPoint = ex.getEmbedded( this.map, Control.prototype ).convertWorld3NToMapWorldV2( event.hit.point[ 0 ], event.hit.point[ 1 ],event.hit.point[ 2 ] ) ;
 	
 //	 console.log( 'mapHitPoint x ' + mapHitPoint.x + ' y ' + mapHitPoint.y ) ;
 		
@@ -38,7 +38,7 @@ SelectionControl.prototype.changePreliminarySelection = function( event )
 	
 	 if(  event.hit && event.hit.entity && ex.getEmbedded( event.hit.entity, Control.prototype )  )
 		{
-	 	 var mapHitPoint = ex.getEmbedded( this.map, Control.prototype ).convertWorldOXYZToMapWorldOXY( event.hit.point ) ;
+	 	 var mapHitPoint = ex.getEmbedded( this.map, Control.prototype ).convertWorld3NToMapWorldV2( event.hit.point[ 0 ], event.hit.point[ 1 ],event.hit.point[ 2 ] ) ;
 	
 	 	 this.selectionEnd   = mapHitPoint ;	
 		}
@@ -83,7 +83,7 @@ SelectionControl.prototype.mousePressedOnEntity  = function( event, entity )
 	
 	 if(  !entity || ! ex.getEmbedded( entity, Control.prototype )  ) { return ; } // clicking on the skydome or something... d'Oh!
 	
-	 if( this.selected.mousePressedOnControl( event, ex.getEmbedded( entity, Control.prototype ) ) ) return ; // the entity acted on the mousepress on the entity and which aborts further selection behavior
+	 if( event.rightIsDown && this.selected.mousePressedOnControl( event, ex.getEmbedded( entity, Control.prototype ) ) ) return ; // the entity acted on the mousepress on the entity and which aborts further selection behavior
 				
 		 // the entity did not consume the click, it could either be a 3D button or the user wants to make a new selection
 		

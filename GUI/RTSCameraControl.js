@@ -36,11 +36,11 @@ RTSCameraControl.prototype.pick = function( x, y ) { return this.camera.pick( x,
 
 RTSCameraControl.prototype.moveByScreenDirection = function( x, y )
 	{
-	 var screenDirectionInWorld = this.tiltNode.convertLocalOXYZToWorldOXYZ( { x: x, y: y, z: 0 } ) ;
+	 var screenDirectionInWorld = this.tiltNode.convertLocal3NToWorldV( x, y, 0 ) ;
 	
-	 var screenDirectionInMoveNode = this.moveNode.convertWorldOXYZToLocalOXYZ( screenDirectionInWorld ) ;
+	 var screenDirectionInMoveNode = this.moveNode.convertWorld3NToLocalV.apply( this.moveNode, screenDirectionInWorld ) ;
 	
-	 this.moveNode.moveL3N( screenDirectionInMoveNode.x, screenDirectionInMoveNode.y, 0 ) ;
+	 this.moveNode.moveL3N( screenDirectionInMoveNode[ 0 ], screenDirectionInMoveNode[ 1 ], 0 ) ;
 	}
 	
 		
@@ -51,7 +51,7 @@ RTSCameraControl.prototype.mouseMoved = function( evt )
 //	 console.log( 'mouse ( ' + evt.x + ', ' + evt.y + ' ) ' ) ;
 	
 		
-	 if( evt.x<20 && this.processes.moveX == null ) 
+	 if( evt.place[ 0 ] < 20 && this.processes.moveX == null ) 
 		{
 		 // console.log( 'left edge' ) ;
 		 // this.processes.moveX = setInterval( function() { this.moveByScreenDirection( -10, 0 ) ; }, ogre.frame
@@ -67,34 +67,34 @@ RTSCameraControl.prototype.mouseMoved = function( evt )
 //	 console.log( 'window ' + ogre.window.width + ' ' + ogre.window.height ) ;
 //	 console.log( 'xy ' + evt.x + ' ' + evt.y ) ;
 		
-	 if( evt.y == 0 && evt.dY < 0 ) 
+	 if( evt.place[ 1 ] == 0 && evt.speed[ 1 ] < 0 ) 
 		{
 	//	 console.log( 'top edge ' + evt.dY ) ;
 		 
-		 this.moveByScreenDirection( 0, -evt.dY ) ;
+		 this.moveByScreenDirection( 0, -evt.speed[ 1 ] ) ;
 		}
 		
-	 if( evt.y >= ogre.window.height - 1 && evt.dY > 0 ) 
+	 if( evt.place[ 1 ] >= ogre.window.height - 1 && evt.speed[1] > 0 ) 
 		{
 	//	 console.log( 'top edge ' + evt.dY ) ;
 
-		 this.moveByScreenDirection( 0, -evt.dY ) ;
+		 this.moveByScreenDirection( 0, -evt.speed[ 1 ] ) ;
 		}
 		
 		
 		
-	 if( evt.x == 0 && evt.dX < 0 ) 
+	 if( evt.place[ 0 ] == 0 && evt.speed[ 0 ] < 0 ) 
 		{
 	//	 console.log( 'left edge ' + evt.dX ) ;
 
-		 this.moveByScreenDirection( -evt.dX, 0 ) ;
+		 this.moveByScreenDirection( -evt.speed[ 0 ], 0 ) ;
 		}
 
-	 if( evt.x >= ogre.window.width - 1 && evt.dX > 0 ) 
+	 if( evt.place[ 0 ] >= ogre.window.width - 1 && evt.speed[ 0 ] > 0 ) 
 		{
 	//	 console.log( 'left edge ' + evt.dX ) ;
 
-		 this.moveByScreenDirection( -evt.dX, 0 ) ;
+		 this.moveByScreenDirection( -evt.speed[ 0 ], 0 ) ;
 		}
 		
 	} ;

@@ -89,21 +89,23 @@ UnitControl.prototype.mousePressedOnControl = function( event, control )
 UnitControl.prototype.move = function( newX, newY )
 	{
 	
-	 var o = this.node.convertLocalOXYZToParentOXYZ( { x: 0, y: 0, z: 0 } )  ;	
+	 var o = this.node.convertLocal3NToParentV( 0, 0, 0 )  ;	
 
-	 var heading = this.node.convertParentOXYZToLocalOXYZ( { x: newX, y: newY, z: 0 } ) ;
+	 var heading = this.node.convertParent3NToLocalV( newX, newY, 0 ) ;
 	
 		
-	 var newPosParentOXYZ = { x: newX, y: newY, z: 0  } ;
+	 var newPosParentV = [ newX, newY, 0  ] ;
 	
-	 var newPosLocalOXYZ  = this.node.convertParentOXYZToLocalOXYZ( newPosParentOXYZ ) ;
+	 var newPosLocalV  = this.node.convertParent3NToLocalV.apply( this.node, newPosParentV ) ;
 	
-	 this.node.moveL3N( newPosLocalOXYZ.x, newPosLocalOXYZ.y, 0 ) ;	
+	 newPosLocalV[ 2 ] = 0 ;
+	
+	 this.node.moveL3N.apply( this.node, newPosLocalV ) ;	
 
 
-	 if( heading.x == 0 && heading.y == 0 ) return ;
+	 if( heading[ 0 ] == 0 && heading[ 1 ] == 0 ) return ;
 	
-	 var controlYaw = Math.atan2( -heading.x, heading.y ) ;
+	 var controlYaw = Math.atan2( -heading[ 0 ], heading[ 1 ] ) ;
 	
 
 	

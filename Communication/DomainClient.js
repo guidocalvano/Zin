@@ -98,8 +98,9 @@ DomainClient.prototype.createElementsIfNotExist = function( elements )
 
 DomainClient.prototype.construct = function( elementObj )
 	{
+        
 	 var object = new this.constructorFunctionsByName[ elementObj.prototypeName ]() ;
-		
+        
 	 var element = ( new DomainElementShadow() ).init( elementObj.id, object, this ) ;
 	
 	 if( object.constructor.name == 'Agent' ) 
@@ -140,6 +141,8 @@ DomainClient.prototype.initializeElements = function( elements )
 //		 receiverSet.push( this.construct( elements[ i ] ) ) ;
 		}
 	
+
+    
 	 for( var j in elements )
 			
 		 this.idToElement[ elements[ j ].id ].decodeFromObject( elements[ j ] ) ;

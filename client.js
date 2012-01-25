@@ -7,11 +7,11 @@ gui.input.linkToOgreInput( ogre.input ) ;
 
 
 
-var GameControl = require( './GUI/GameControl.js' ) ;
+var GuiControl = require( './GUI/GuiControl.js' ) ;
 
 var ServerConnection = require( './Communication/ServerConnection.js')
 
-var gameControl =  ( new GameControl() ).init( ( new ServerConnection() ).init( 8124, 'localhost' ) ) ;
+var guiontrol =  ( new GuiControl() ).init( ( new ServerConnection() ).init( 8124, 'localhost' ), true ) ;
 
 
 

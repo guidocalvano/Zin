@@ -3,8 +3,8 @@
 var mod = function( ex, Control, TileControl, UnitControl )
 {
 
-
-function MapControl() {}
+ 
+function MapControl() { }
 
 MapControl.prototype = new Control() ;
 
@@ -45,7 +45,7 @@ MapControl.prototype.init = function( map )
 		}
 	
 	console.log( 'tiles made' ) ;
-	 var unitSet = map.getUnits( { x: 0, y: 0 }, { x: map.boundX - 1, y: map.boundY - 1 } ) ;
+	 var unitSet = map.getUnits( [ 0, 0 ], [ map.boundX - 1, map.boundY - 1 ] ) ;
 	
 	for( var i in unitSet )
 		(new UnitControl()).init( unitSet[ i ], this.node ) ;
@@ -81,14 +81,15 @@ MapControl.prototype.init = function( map )
 */
 
 
-MapControl.prototype.convertWorldOXYZToMapWorldOXY = function( worldOXYZ )
+MapControl.prototype.convertWorld3NToMapWorldV2 = function( x, y, z )
 	{
-	 var localOXYZ = this.node.convertWorldOXYZToLocalOXYZ( worldOXYZ ) ;
+	 var localV = this.node.convertWorld3NToLocalV.apply( this.node, arguments ) ;
 	
-	 var mapWorldOXY = { x: localOXYZ.x, y: localOXYZ.y } ;
+	 // var mapWorldOXY = { x: localOXYZ.x, y: localOXYZ.y } ;
 	 // var mapWorldOXY = { x: localOXYZ.x, y: localOXYZ.y } ;
 	
-	 return mapWorldOXY ;
+	 // return mapWorldOXY ;
+	 return [ localV[ 0 ], localV[ 1 ] ] ;
 	} ;
 
 
