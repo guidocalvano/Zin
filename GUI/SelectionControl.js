@@ -66,6 +66,8 @@ SelectionControl.prototype.finishSelection = function( event )
 		
 	 this.selectionMode = false ;
 	} ;
+    
+
 	
 SelectionControl.prototype.abortSelection  = function()
 	{
@@ -73,7 +75,20 @@ SelectionControl.prototype.abortSelection  = function()
 	 
 	 this.selectionMode = false ;
 	} ;
-	
+
+
+
+SelectionControl.prototype.showSelection = function()
+    {
+     this.selected.showSelection() ;
+    } ;
+    
+    
+SelectionControl.prototype.hideSelection = function()
+    {
+     this.selected.hideSelection() ;
+    
+    } ;
 
 
 SelectionControl.prototype.mousePressedOnEntity  = function( event, entity )

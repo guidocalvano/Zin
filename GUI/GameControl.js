@@ -45,6 +45,20 @@ GameControl.prototype.afterDomainInitialized = function( _, objectSet )
 		
 	} ;
 
+
+GameControl.prototype.activate = function()
+    {
+     this.selectionControl.showSelection() ;    
+    } ;
+
+
+GameControl.prototype.deactivate = function()
+    {
+     this.selectionControl.hideSelection() ;    
+    } ;
+
+
+
 GameControl.prototype.mouseMovedOnEntity = function( event, entity )
 	{
 	 this.selectionControl.mouseMovedOnEntity( event, entity ) ;

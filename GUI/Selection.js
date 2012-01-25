@@ -39,6 +39,22 @@ Selection.prototype.unselect = function()
 
 
 
+Selection.prototype.hideSelection = function()
+    {
+     for( var unit in this.selectedUnitsArray )
+	 	ex.getEmbedded( this.selectedUnitsArray[ unit ], UnitControl.prototype ).unselect() ;
+
+    } ;
+
+
+Selection.prototype.showSelection = function()
+    {
+    
+     for( var unit in this.selectedUnitsArray )
+	 	ex.getEmbedded( this.selectedUnitsArray[ unit ], UnitControl.prototype ).select() ;    
+    } ;
+
+
 Selection.prototype.mouseMovedOnControl    	= function( event, control ) 
 	{
 	 for( var unit in this.selectedUnitsArray )

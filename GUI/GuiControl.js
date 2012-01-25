@@ -89,9 +89,15 @@ var mod = function( extend, DomainClient, RTSCameraControl, GameControl, EditorC
 		{
 		 case ' ' :
 		 	if( this.currentMode == GuiControl.GAME_MODE )
-				this.currentMode = GuiControl.EDIT_MODE  ;
+                {
+				 this.currentMode = GuiControl.EDIT_MODE  ;
+                 this.gameControl.deactivate() ; 
+                }
 			else if( this.currentMode == GuiControl.EDIT_MODE )
-				this.currentMode = GuiControl.GAME_MODE ;
+                {
+				 this.currentMode = GuiControl.GAME_MODE ;
+                 this.gameControl.activate() ; 
+                }
 			break ;
 
 		}
